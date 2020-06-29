@@ -49,7 +49,7 @@ extern "C" CFNotificationCenterRef CFNotificationCenterGetDistributedCenter(void
 
         self.fakeNavBar = [[[UIView alloc] init] autorelease];
         if (@available(iOS 13, *)) {
-            self.fakeNavBar.backgroundColor = [UIColor systemBackgroundColor];
+            self.fakeNavBar.backgroundColor = [UIColor colorWithRed: 0.98 green: 0.40 blue: 0.56 alpha: 1.00];;
         } else {
             self.fakeNavBar.backgroundColor = [UIColor whiteColor];
         }
@@ -58,7 +58,8 @@ extern "C" CFNotificationCenterRef CFNotificationCenterGetDistributedCenter(void
 
         self.titleLabel = [[[UILabel alloc] init] autorelease];
         self.titleLabel.text = @"Alert settings";
-        self.titleLabel.font = [UIFont systemFontOfSize:17.0 weight:UIFontWeightSemibold];
+        self.titleLabel.font = [UIFont systemFontOfSize:18.0 weight:UIFontWeightSemibold];
+        self.titleLabel.textColor = [UIColor whiteColor];
 
         [self.fakeNavBar addSubview:self.titleLabel];
 
@@ -66,13 +67,16 @@ extern "C" CFNotificationCenterRef CFNotificationCenterGetDistributedCenter(void
         self.doneButton.titleLabel.font = [UIFont systemFontOfSize:17.0 weight:UIFontWeightSemibold];
         [self.doneButton addTarget:self action:@selector(doneTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self.doneButton setTitle:@"Done" forState:UIControlStateNormal];
+        [self.doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
         [self.fakeNavBar addSubview:self.doneButton];
 
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
         self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:17.0 weight:UIFontWeightRegular];
+        self.cancelButton.titleLabel.textColor = [UIColor whiteColor];
         [self.cancelButton addTarget:self action:@selector(cancelTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        [self.cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 
         [self.fakeNavBar addSubview:self.cancelButton];
 
@@ -119,7 +123,7 @@ extern "C" CFNotificationCenterRef CFNotificationCenterGetDistributedCenter(void
         statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     } else {
         if (@available(iOS 11.0, *)) {
-        statusBarHeight = self.view.safeAreaInsets.top;
+            statusBarHeight = self.view.safeAreaInsets.top;
         } else {
             statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
         }
@@ -128,7 +132,7 @@ extern "C" CFNotificationCenterRef CFNotificationCenterGetDistributedCenter(void
     CGFloat fakeNavBarHeight;
 
     if (@available(iOS 13, *)) {
-        fakeNavBarHeight = 56.0;
+        fakeNavBarHeight = 56.0 * 1.5;
         statusBarHeight = 0.0;
     } else {
         fakeNavBarHeight = statusBarHeight == 0.0 ? 32.0 : statusBarHeight + 44.0;
@@ -159,7 +163,7 @@ extern "C" CFNotificationCenterRef CFNotificationCenterGetDistributedCenter(void
 
     self.titleLabel.frame = CGRectMake(
         self.fakeNavBar.bounds.size.width / 2.0 - titleLabelSize.width / 2.0,
-        statusBarHeight,
+        statusBarHeight + 14.0,
         titleLabelSize.width,
         fakeNavBarHeight - statusBarHeight
     );
@@ -168,7 +172,7 @@ extern "C" CFNotificationCenterRef CFNotificationCenterGetDistributedCenter(void
 
     self.doneButton.frame = CGRectMake(
         self.fakeNavBar.bounds.size.width - doneButtonSize.width - self.view.layoutMargins.left,
-        statusBarHeight + (fakeNavBarHeight - statusBarHeight) / 2.0 - doneButtonSize.height / 2.0,
+        statusBarHeight + 14.0 + (fakeNavBarHeight - statusBarHeight) / 2.0 - doneButtonSize.height / 2.0,
         doneButtonSize.width,
         doneButtonSize.height
     );
@@ -177,7 +181,7 @@ extern "C" CFNotificationCenterRef CFNotificationCenterGetDistributedCenter(void
 
     self.cancelButton.frame = CGRectMake(
         self.view.layoutMargins.left,
-        statusBarHeight + (fakeNavBarHeight - statusBarHeight) / 2.0 - cancelButtonSize.height / 2.0,
+        statusBarHeight + 14.0 + (fakeNavBarHeight - statusBarHeight) / 2.0 - cancelButtonSize.height / 2.0,
         cancelButtonSize.width,
         cancelButtonSize.height
     );
